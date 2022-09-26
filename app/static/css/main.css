@@ -1,0 +1,21 @@
+:root {
+    --primary-color: #003476;
+    --secondary-color: #b4d2f7;
+    --header-size: 4rem;
+    --font: 1.8rem;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-family: sans-serif;
+    font-size: 62.5%;
+}
+
+img {
+    max-width: 160px;
+}
