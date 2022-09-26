@@ -1,21 +1,21 @@
 import os
-from pymongo import MongoClient
+import unittest
 
-from flask import Flask 
-from flask import request, make_response, redirect
+from flask import request, make_response, redirect, session
 from flask import render_template
 
-from flask_bootstrap import Bootstrap
+from app import create_app
+from app.forms import LoginForm
 
-app = Flask(__name__)
+from app import db
 
-client = MongoClient('localhost', 27017)
-db = client.flask_db
-tasks = db.tasks
+app = create_app()
 
-bootstrap = Bootstrap(app)
 
-# tasks = ["Finish Flask App", "Set Database", "Jenkins pipeline"]
+@app.cli.command()
+def test():
+    tests = unittest.TestLoader().discover('tests')
+    unittest.TextTestRunner().run(tests)
 
 @app.errorhandler(404)
 def not_found(error):
@@ -29,24 +29,24 @@ def server_error(error):
 def index():
     user_ip = request.remote_addr
 
-    response = make_response(redirect('/hello'))
-    response.set_cookie('user_ip', user_ip)
+    response = make_response(redirect('/home'))
+    session['user_ip'] = user_ip
 
     return response
 
-@app.route('/hello')
-def hello():
-    user_ip = request.cookies.get('user_ip')
-
-    tasks.insert_one({'task': 'task_1'})
+@app.route('/home', methods=['GET'])
+def home():
+    user_ip = session.get('user_ip')
+    username = session.get('username')
 
     context = {
         'user_ip': user_ip,
-        'tasks': tasks.find()
+        'tasks': db.get_task(),
+        'username': username
     }
 
     return render_template('home.html', **context)
 
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 8000))
+    port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
