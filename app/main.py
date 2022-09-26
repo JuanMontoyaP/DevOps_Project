@@ -1,5 +1,5 @@
-from ensurepip import bootstrap
 import os
+from pymongo import MongoClient
 
 from flask import Flask 
 from flask import request, make_response, redirect
@@ -9,9 +9,13 @@ from flask_bootstrap import Bootstrap
 
 app = Flask(__name__)
 
+client = MongoClient('localhost', 27017)
+db = client.flask_db
+tasks = db.tasks
+
 bootstrap = Bootstrap(app)
 
-tasks = ["Finish Flask App", "Set Database", "Jenkins pipeline"]
+# tasks = ["Finish Flask App", "Set Database", "Jenkins pipeline"]
 
 @app.errorhandler(404)
 def not_found(error):
@@ -34,9 +38,11 @@ def index():
 def hello():
     user_ip = request.cookies.get('user_ip')
 
+    tasks.insert_one({'task': 'task_1'})
+
     context = {
         'user_ip': user_ip,
-        'tasks': tasks
+        'tasks': tasks.find()
     }
 
     return render_template('home.html', **context)
