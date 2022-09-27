@@ -6,6 +6,7 @@ from .config import Config
 
 from .auth import auth
 from .users import users
+from .api import api
 
 from .models import UserModel
 
@@ -27,5 +28,6 @@ def create_app():
 
     app.register_blueprint(auth)
     app.register_blueprint(users)
+    app.register_blueprint(api)
 
     return app
