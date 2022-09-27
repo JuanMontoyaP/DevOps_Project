@@ -1,21 +1,24 @@
 import os
-from pymongo import MongoClient
+import unittest
 
-from flask import Flask 
-from flask import request, make_response, redirect
+from flask import request, make_response, redirect, session, url_for
 from flask import render_template
 
-from flask_bootstrap import Bootstrap
+from flask_login import login_required, current_user
 
-app = Flask(__name__)
+from app import create_app
 
-client = MongoClient('localhost', 27017)
-db = client.flask_db
-tasks = db.tasks
+from app import db
+from app.forms import TaskForm, DeleteTaskForm
+from app.helpers import tasks
 
-bootstrap = Bootstrap(app)
+app = create_app()
 
-# tasks = ["Finish Flask App", "Set Database", "Jenkins pipeline"]
+
+@app.cli.command()
+def test():
+    tests = unittest.TestLoader().discover('tests')
+    unittest.TextTestRunner().run(tests)
 
 @app.errorhandler(404)
 def not_found(error):
@@ -29,24 +32,42 @@ def server_error(error):
 def index():
     user_ip = request.remote_addr
 
-    response = make_response(redirect('/hello'))
-    response.set_cookie('user_ip', user_ip)
+    response = make_response(redirect('/home'))
+    session['user_ip'] = user_ip
 
     return response
 
-@app.route('/hello')
-def hello():
-    user_ip = request.cookies.get('user_ip')
-
-    tasks.insert_one({'task': 'task_1'})
+@app.route('/home', methods=['GET', 'POST'])
+@login_required
+def home():
+    user_ip = session.get('user_ip')
+    username = current_user.id
+    task_form = TaskForm()
+    delete_from = DeleteTaskForm()
 
     context = {
         'user_ip': user_ip,
-        'tasks': tasks.find()
+        'tasks': tasks.get_tasks(username),
+        'username': username,
+        'task_form': task_form,
+        'delete_form': delete_from
     }
+
+    if task_form.validate_on_submit():
+        tasks.create_task(username, task_form.description.data)
+
+        return redirect(url_for('home'))
 
     return render_template('home.html', **context)
 
+@app.route('/task/delete/<task_id>', methods=['POST'])
+def delete_task(task_id):
+    username = current_user.id
+    tasks.delete_a_task(username, task_id)
+
+    return redirect(url_for('home'))
+
+
 if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 8000))
+    port = int(os.environ.get('PORT', 5000))
     app.run(debug=True, host='0.0.0.0', port=port)

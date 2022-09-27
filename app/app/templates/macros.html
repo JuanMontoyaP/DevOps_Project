@@ -1,0 +1,16 @@
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% macro render_lists(task, delete_form) %}
+    <li class="list-group-item">
+        <span class="badge">
+            {%if task["done"] %}
+                Done
+            {% else %}
+                To do
+            {% endif %}
+        </span>
+        Task: {{ task["description"] }}
+
+        {{ wtf.quick_form(delete_form, action=url_for('delete_task', task_id=task["task_id"])) }}
+    </li>
+{% endmacro %}
