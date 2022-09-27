@@ -14,3 +14,12 @@
         {{ wtf.quick_form(delete_form, action=url_for('delete_task', task_id=task["task_id"])) }}
     </li>
 {% endmacro %}
+
+{% macro render_movies(movie) %}
+    <li class="list-group-item">
+        <span class="badge">
+            {{ movie["vote_average"] }}
+        </span>
+        {{ movie["title"] }}
+    </li>
+{% endmacro %}
