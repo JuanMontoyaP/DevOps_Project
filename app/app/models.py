@@ -6,6 +6,7 @@ class UserData:
     def __init__(self, username, password):
         self.username = username
         self.password = password
+        self.tasks = []
 
 class UserModel(UserMixin):
     def __init__(self, user_data: UserData):

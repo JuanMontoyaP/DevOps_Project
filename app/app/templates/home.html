@@ -18,9 +18,15 @@
         <a href="{{ url_for('index') }}">Home</a>
     {% endif %}
 
-    <ul>
+    <ul class="list-group">
         {% for task in tasks %}
-            {{ macros.render_lists(task) }}
+            {{ macros.render_lists(task, delete_form) }}
         {% endfor %}
     </ul>
+
+    <div class="container">
+        <h4>Create new task</h4>
+
+        {{ wtf.quick_form(task_form) }}
+    </div>
 {% endblock %}
