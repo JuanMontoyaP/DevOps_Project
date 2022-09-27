@@ -1,3 +1,5 @@
+from werkzeug.security import check_password_hash
+
 from flask import render_template, flash, redirect, url_for
 
 from flask_login import login_user, login_required, logout_user, current_user
@@ -29,7 +31,7 @@ def login():
         if user_doc:    
             password_from_db = user_doc["password"]
 
-            if password_from_db == password:
+            if check_password_hash(password_from_db, password):
                 user_data = UserData(username, password)
                 user = UserModel(user_data)
 
