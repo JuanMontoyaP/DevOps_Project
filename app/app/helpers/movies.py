@@ -10,7 +10,10 @@ access_api = f'?api_key={os.getenv("API_KEY")}'
 def get_movies_from_api():
     api_url = f'{base_url}movie/popular{access_api}'
     response = requests.get(api_url)
-    return response.json()["results"]
+    if response.status_code == 200:
+        return response.json()["results"]
+    else:
+        return []
 
 def get_popular_movies():
     
