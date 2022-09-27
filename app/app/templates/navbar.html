@@ -21,11 +21,15 @@
                 <li><a href="{{ url_for('index') }}">Home</a></li>
                 <li><a href="https://www.softserveinc.com/en-us" target="_blank">Softserve</a></li>
 
+                <li><a href="{{ url_for('api.get_all_movies') }}">Movies</a></li>
+
                 {% if current_user.is_authenticated %}
                     <li><a href="{{ url_for('auth.logout') }}">Logout</a></li>
                 {% endif %}
 
-                
+                {% if current_user.is_anonymous %}
+                    <li><a href="{{ url_for('users.signup') }}">Signup</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>
