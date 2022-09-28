@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% import 'macros.html' as macros%}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %}
+    {{ super() }}
+    Home
+{% endblock %}
+
+{% block content %}
+    
+    <h1>Want to watch something?</h1>
+
+    <h3>Most popular movies</h3>
+
+    <ul class="list-group">
+        {% for movie in popular_movies %}
+            {{ macros.render_movies(movie) }}
+        {% endfor %}
+    </ul>
+{% endblock %}
