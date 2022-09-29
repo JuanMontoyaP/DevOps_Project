@@ -6,14 +6,21 @@ pipeline {
         stage("build") {
             
             steps {
-                echo "build"
+                sh "docker-compose build"
             }
         }
 
-        stage("test") {
+        stage("run") {
 
             steps {
-                echo "test"
+                sh "docker-compose up -d"
+            }
+        }
+
+        stage("Artifacts") {
+
+            steps {
+                echo "Create a new artifact"
             }
         }
     }
