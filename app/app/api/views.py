@@ -1,4 +1,3 @@
-from multiprocessing import context
 from flask import render_template
 
 from app.helpers.movies import get_popular_movies
