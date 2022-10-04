@@ -34,7 +34,6 @@ pipeline {
             steps {
                 sh '''
                     git secret reveal
-                    git secret cat .env
                     docker compose build
                     docker compose up -d
                 '''
