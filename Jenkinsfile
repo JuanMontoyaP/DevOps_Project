@@ -33,7 +33,7 @@ pipeline {
 
             steps {
                 sh '''
-                    git secret reveal -v
+                    git secret reveal -f
                     docker compose build
                     docker compose up -d
                 '''
