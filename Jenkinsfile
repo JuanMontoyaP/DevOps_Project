@@ -13,5 +13,15 @@ pipeline {
                 '''
             }
         }
+
+        stage("build app") {
+
+            steps {
+                sh '''
+                    docker-compose build
+                    docker-compose up -d
+                '''
+            }
+        }
     }
 }
