@@ -3,24 +3,14 @@ pipeline {
 
     stages {
 
-        stage("build") {
+        stage("verify tooling") {
             
             steps {
-                sh "docker-compose build"
-            }
-        }
-
-        stage("run") {
-
-            steps {
-                sh "docker-compose up -d"
-            }
-        }
-
-        stage("Artifacts") {
-
-            steps {
-                echo "Create a new artifact"
+                sh '''
+                    docker version
+                    docker info
+                    docker compose version
+                '''
             }
         }
     }
