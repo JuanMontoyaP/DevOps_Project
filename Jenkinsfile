@@ -20,10 +20,13 @@ pipeline {
         }
 
         stage("Add credentials") {
-            sh """
-                gpg --batch --import $gpg_secret
-                gpg --import-ownertrust $gpg_trust
-            """
+
+            steps {
+                sh '''
+                    gpg --batch --import $gpg_secret
+                    gpg --import-ownertrust $gpg_trust
+                '''
+            }
         }
 
         stage("build app") {
