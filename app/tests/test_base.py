@@ -1,4 +1,3 @@
-from http.client import responses
 from flask_testing import TestCase
 from flask import current_app, url_for
 
@@ -21,21 +20,6 @@ class MainTest(TestCase):
         response = self.client.get(url_for('index'))
         self.assertTrue(response.status_code == 302)
 
-    def test_home_get(self):
-        response = self.client.get(url_for('home'))
-        self.assert200(response)
-
-    def test_home_post(self):
-        response = self.client.post(
-            url_for('home'),
-            data={
-                'username': 'Juan',
-                'password': 'password'
-            }
-        )
-
-        self.assertTrue(response.status_code == 405)
-
     def test_auth_blueprint_exist(self):
         self.assertIn('auth', self.app.blueprints)
 
@@ -55,8 +39,6 @@ class MainTest(TestCase):
                 'password': 'password'
             }
         )
-
-        print(response)
 
         self.assertTrue(response.status_code == 302)
     

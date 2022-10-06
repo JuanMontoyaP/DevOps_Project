@@ -1,14 +1,11 @@
 import os
 import unittest
 
-from flask import request, make_response, redirect, session, url_for
-from flask import render_template
-
+from flask import request, make_response, redirect, session, url_for, render_template
 from flask_login import login_required, current_user
 
 from app import create_app
 
-from app import db
 from app.forms import TaskForm, DeleteTaskForm
 from app.helpers import tasks
 

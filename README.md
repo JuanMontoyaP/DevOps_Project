@@ -22,3 +22,6 @@ For stop the app, run the following command:
 
     docker-compose down
 
+You must create a file called  `.env` which must contain the API key that you can get registering in [the movie database api](https://developers.themoviedb.org/3) an put in the file as follows:
+
+    API_KEY="your_private_key"
