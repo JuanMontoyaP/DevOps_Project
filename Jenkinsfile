@@ -32,6 +32,7 @@ pipeline {
 
             steps {
                 sh '''
+                    git init
                     git secret reveal -f
                 '''
             }
