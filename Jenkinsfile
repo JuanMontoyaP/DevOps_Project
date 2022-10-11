@@ -48,8 +48,8 @@ pipeline {
             agent {
                 
                 dockerfile {
-                    filename: "Dockerfile"
-                    additionalBuildArgs: "-t jpmontoya19/cisco_demo"
+                    filename "Dockerfile"
+                    additionalBuildArgs "-t jpmontoya19/cisco_demo"
                 }
 
             }
