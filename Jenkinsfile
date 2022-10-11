@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent none
 
     environment {
         gpg_secret = credentials("gpg-secret")
@@ -9,17 +9,20 @@ pipeline {
     stages {
 
         stage("verify tooling") {
+
+            agent any
             
             steps {
                 sh '''
                     docker version
                     docker info
-                    docker compose version
                 '''
             }
         }
 
         stage("Add credentials") {
+
+            agent any
 
             steps {
                 sh '''
@@ -29,14 +32,26 @@ pipeline {
             }
         }
 
-        stage("build app") {
+        stage("reveal app secrets") {
+
+            agent any
 
             steps {
                 sh '''
                     git secret reveal -f
-                    docker compose build
-                    docker compose up -d
                 '''
+            }
+        }
+
+        stage("build docker image") {
+
+            agent {
+                
+                dockerfile {
+                    filename: "Dockerfile"
+                    additionalBuildArgs: "-t jpmontoya19/cisco_demo"
+                }
+
             }
         }
     }
