@@ -31,7 +31,7 @@ pipeline {
             steps {
                 sh '''
                     echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin
-                    docker push jpmontoya19/devopslab_ci:flask-app
+                    docker push jpmontoya19/cisco_demo:flask-app
                 '''
             }
         }
