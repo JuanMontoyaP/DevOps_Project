@@ -53,6 +53,12 @@ pipeline {
                 }
 
             }
+
+            steps {
+                sh '''
+                    python --version
+                '''
+            }
         }
     }
 }
