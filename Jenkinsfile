@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
 
     environment {
         gpg_secret = credentials("gpg-secret")
@@ -9,8 +9,6 @@ pipeline {
     stages {
 
         stage("verify tooling") {
-
-            agent any
             
             steps {
                 sh '''
@@ -22,8 +20,6 @@ pipeline {
 
         stage("Add credentials") {
 
-            agent any
-
             steps {
                 sh '''
                     gpg --batch --import $gpg_secret
@@ -33,8 +29,6 @@ pipeline {
         }
 
         stage("reveal app secrets") {
-
-            agent any
 
             steps {
                 sh '''
