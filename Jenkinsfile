@@ -18,25 +18,6 @@ pipeline {
             }
         }
 
-        stage("Add credentials") {
-
-            steps {
-                sh '''
-                    gpg --batch --import $gpg_secret
-                    gpg --import-ownertrust $gpg_trust
-                '''
-            }
-        }
-
-        stage("reveal app secrets") {
-
-            steps {
-                sh '''
-                    git-secret reveal -f
-                '''
-            }
-        }
-
         stage("build docker image") {
 
             agent {
