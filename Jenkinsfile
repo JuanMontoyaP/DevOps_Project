@@ -2,8 +2,7 @@ pipeline {
     agent any
 
     environment {
-        gpg_secret = credentials("gpg-secret")
-        gpg_trust = credentials("gpg-ownertrust")
+        dockerhub=credentials('dockerhub')
     }
 
     stages {
@@ -20,18 +19,19 @@ pipeline {
 
         stage("build docker image") {
 
-            agent {
-                
-                dockerfile {
-                    filename "Dockerfile"
-                    additionalBuildArgs "-t jpmontoya19/cisco_demo"
-                }
-
+            steps {
+                sh '''
+                    docker build -t jpmontoya19/cisco_demo:flask-app .
+                '''
             }
+        }
+
+        stage("push docker image to docker-hub") {
 
             steps {
                 sh '''
-                    python --version
+                    echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin
+                    docker push jpmontoya19/devopslab_ci:flask-app
                 '''
             }
         }
