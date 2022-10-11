@@ -21,7 +21,3 @@ For building this app you should install docker and run the following commands o
 For stop the app, run the following command:
 
     docker-compose down
-
-You must create a file called  `.env` which must contain the API key that you can get registering on [the movie database api](https://developers.themoviedb.org/3) an put he key in the file as follows [example](.env.example):
-
-    API_KEY="your_private_key"
