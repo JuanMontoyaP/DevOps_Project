@@ -54,9 +54,15 @@ pipeline {
             steps {
                 sh '''
                     pwd
-                    terraform init
-                    terraform plan
                 '''
+
+                dir('terraform') {
+                    sh '''
+                        pwd
+                        terraform init
+                        terraform plan
+                    '''
+                }
             }
         }
     }
