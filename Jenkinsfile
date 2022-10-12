@@ -20,6 +20,7 @@ pipeline {
                 sh '''
                     docker version
                     docker info
+                    terraform -help
                 '''
             }
         }
@@ -33,7 +34,7 @@ pipeline {
             }
         }
 
-        stage("push docker image to docker-hub") {
+        stage("push image to docker-hub") {
 
             steps {
                 sh '''
@@ -43,7 +44,7 @@ pipeline {
             }
         }
 
-        stage("plan infrastructure with terraform") {
+        stage("plan infrastructure") {
 
             when {
                 not {
@@ -52,16 +53,36 @@ pipeline {
             }
 
             steps {
-                sh '''
-                    pwd
-                '''
-
                 dir('terraform') {
                     sh '''
-                        pwd
                         terraform init
                         terraform plan
                     '''
+                }
+            }
+        }
+
+        stage("build infrastructure") {
+
+            when {
+                equals expected: true, actual: params.destroy
+            }
+
+            steps {
+                dir('terraform') {
+                    sh "terraform apply --auto-approve"
+                }
+            }
+        }
+
+        stage("destroy infrastructure") {
+            when {
+                equals expected: true, actual: params.destroy
+            }
+
+            steps {
+                dir('terraform') {
+                    sh "terraform destroy --auto-approve"
                 }
             }
         }
