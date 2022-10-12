@@ -65,7 +65,9 @@ pipeline {
         stage("build infrastructure") {
 
             when {
-                equals expected: true, actual: params.destroy
+                not {
+                    equals expected: true, actual: params.destroy
+                }
             }
 
             steps {
