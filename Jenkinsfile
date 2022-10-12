@@ -52,9 +52,12 @@ pipeline {
             }
         }
 
-        stage("init terraform") {
-            dir('terraform') {
-                sh "terraform init"
+        stage("initialize terraform") {
+            
+            steps {
+                dir('terraform') {
+                    sh "terraform init"
+                }
             }
         }
 
