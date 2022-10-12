@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     parameters {
-        booleanParam(name: 'autoApprove', defaultValue: false, description: 'Automatically run apply after generating plan?')
+        booleanParam(name: 'buildImage', defaultValue: false, description: 'Build docker image?')
         booleanParam(name: 'destroy', defaultValue: false, description: 'Destroy Terraform build?')
     }
 
@@ -27,6 +27,10 @@ pipeline {
 
         stage("build docker image") {
 
+            when {
+                equals expected: true, actual: params.buildImage
+            }
+
             steps {
                 sh '''
                     docker build -t jpmontoya19/cisco_demo:flask-app .
@@ -36,11 +40,21 @@ pipeline {
 
         stage("push image to docker-hub") {
 
+            when {
+                equals expected: true, actual: params.buildImage
+            }
+
             steps {
                 sh '''
                     echo $dockerhub_PSW | docker login -u $dockerhub_USR --password-stdin
                     docker push jpmontoya19/cisco_demo:flask-app
                 '''
+            }
+        }
+
+        stage("init terraform") {
+            dir('terraform') {
+                sh "terraform init"
             }
         }
 
@@ -55,7 +69,6 @@ pipeline {
             steps {
                 dir('terraform') {
                     sh '''
-                        terraform init
                         terraform plan
                     '''
                 }
