@@ -5,7 +5,6 @@ resource "aws_instance" "cisco" {
   instance_type   = var.instace_type
   key_name        = "us-west-key"
   security_groups = ["${aws_security_group.sg-cisco.name}"]
-  user_data       = file("install_website.sh")
 
   tags = {
     "Name" : "cisco_demo"
