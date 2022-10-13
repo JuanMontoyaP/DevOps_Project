@@ -10,7 +10,7 @@ pipeline {
         dockerhub=credentials('dockerhub')
         AWS_ACCESS_KEY_ID=credentials('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY=credentials('aws_secret_access_key')
-        ansible_key=credentials('ansible_aws_access_key') 
+        us-west-key=credentials('us-west-key') 
     }
 
     stages {
@@ -104,7 +104,7 @@ pipeline {
 
             steps {
                 dir('ansible') {
-                    sh "ansible-playbook -i dev.inv playbook.yml --key-file ansible_key"
+                    sh "ansible-playbook -i dev.inv playbook.yml --key-file us-west-key"
                 }
             }
         }
