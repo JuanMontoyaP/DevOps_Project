@@ -10,7 +10,7 @@ pipeline {
         dockerhub=credentials('dockerhub')
         AWS_ACCESS_KEY_ID=credentials('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY=credentials('aws_secret_access_key')
-        ANSIBLE_KEY=credentials('ansible_aws_access_key') 
+        ansible_key=credentials('ansible_aws_access_key') 
     }
 
     stages {
@@ -22,6 +22,7 @@ pipeline {
                     docker version
                     docker info
                     terraform -help
+                    ansible --version
                 '''
             }
         }
@@ -94,19 +95,6 @@ pipeline {
             }
         }
 
-        stage("destroy infrastructure") {
-            when {
-                equals expected: true, actual: params.destroy
-            }
-
-            steps {
-                dir('terraform') {
-                    sh "terraform destroy --auto-approve"
-                }
-            }
-        }
-
-
         stage("Use ansible") {
             when {
                 not {
@@ -116,7 +104,19 @@ pipeline {
 
             steps {
                 dir('ansible') {
-                    sh 'ansible-playbook -i dev.inv --key-file=$ANSIBLE_KEY playbook.yml'
+                    sh "ansible-playbook -i dev.inv playbook.yml --key-file ansible_key"
+                }
+            }
+        }
+
+        stage("destroy infrastructure") {
+            when {
+                equals expected: true, actual: params.destroy
+            }
+
+            steps {
+                dir('terraform') {
+                    sh "terraform destroy --auto-approve"
                 }
             }
         }
