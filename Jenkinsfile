@@ -104,7 +104,15 @@ pipeline {
 
             steps {
                 dir('ansible') {
-                    sh "ansible-playbook -i dev.inv playbook.yml --private-key=$AWS_PRIVATE_KEY"
+                    ansiblePlaybook (
+                        become: true, 
+                        becomeUser: 'ec2-user', 
+                        credentialsId: 'us-west-key.pem', 
+                        installation: 'ansible', 
+                        inventory: 'dev.inv', 
+                        playbook: 'playbook.yml', 
+                        vaultCredentialsId: 'aws_secret_access_key'
+                    )
                 }
             }
         }
