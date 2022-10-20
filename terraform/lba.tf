@@ -8,6 +8,11 @@ resource "aws_lb_target_group" "target-group" {
     unhealthy_threshold = 2
   }
 
+  stickiness {
+    type    = "lb_cookie"
+    enabled = true
+  }
+
   name        = var.tg_name
   port        = var.tg_port
   protocol    = var.tg_protocol
