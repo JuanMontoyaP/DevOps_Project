@@ -10,7 +10,6 @@ pipeline {
         dockerhub=credentials('dockerhub')
         AWS_ACCESS_KEY_ID=credentials('aws_access_key_id')
         AWS_SECRET_ACCESS_KEY=credentials('aws_secret_access_key')
-        AWS_PRIVATE_KEY=credentials('us-west-key.pem') 
     }
 
     stages {
@@ -104,15 +103,22 @@ pipeline {
 
             steps {
                 dir('ansible') {
-                    ansiblePlaybook (
-                        become: true, 
-                        becomeUser: 'ec2-user', 
-                        credentialsId: 'us-west-key.pem', 
-                        installation: 'ansible', 
-                        inventory: 'dev.inv', 
-                        playbook: 'playbook.yml', 
-                        vaultCredentialsId: 'aws_secret_access_key'
-                    )
+                    withCredentials([[
+                        $class: 'AmazonWebServicesCredentialsBinding', 
+                        credentialsId:'aws_credentials', 
+                        accessKeyVariable: 'AWS_ACCESS_KEY', 
+                        secretKeyVariable: 'AWS_SECRET_KEY'
+                    ]]) {
+
+                        ansiblePlaybook(
+                            credentialsId: 'aws_ec2_key',
+                            disableHostKeyChecking: true, 
+                            installation: 'ansible', 
+                            inventory: 'aws_ec2.yml',
+                            playbook: 'playbook.yml',
+                        )
+
+                    }
                 }
             }
         }
