@@ -12,6 +12,12 @@
         <h1>Welcome {{ username | capitalize}} </h1>
     {% endif %}
 
+    {% if user_ip %}
+        <h3>Your IP: {{ user_ip }}</h3>
+    {% else %}
+        <a href="{{ url_for('index') }}">index</a>
+    {% endif %}
+
     <ul class="list-group">
         {% for task in tasks %}
             {{ macros.render_lists(task, delete_form) }}
