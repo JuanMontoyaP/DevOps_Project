@@ -1,5 +1,5 @@
 # Instance variables
-number_instances = 3
+number_instances = 1
 ami_id           = "ami-09208e69ff3feb1db"
 instace_type     = "t2.micro"
 
