@@ -1,10 +1,31 @@
+from app.db import resource, client, create_table_dynamodb
 
-from app.db import mongo
+try:
+    response = client.describe_table(TableName='Users')
+except client.exceptions.ResourceNotFoundException:
+    create_table_dynamodb('Users', 'username', 'S')
 
-def get_user_by_key(value, key='username'):
-    user = mongo.users.find_one({key: value})
-    return user
+users_table = resource.Table('Users')
+
+def get_user_by_key(username):
+    response = users_table.get_item(
+        Key = {
+            'username': username
+        },
+    )
+    return response
+
+def get_user_data(username, data_to_get: list):
+    response = users_table.get_item(
+        Key = {
+            'username': username
+        },
+        AttributesToGet = data_to_get
+    )
+    return response
 
 def create_user(user_data):
-    mongo.users.insert_one(user_data.__dict__)
+    response = users_table.put_item(Item=user_data.__dict__)
+    return response
+    
 

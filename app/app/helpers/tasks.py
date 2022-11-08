@@ -1,7 +1,5 @@
 from bson import objectid
 
-from app.db import mongo
-
 from .users import get_user_by_key
 
 def create_task(username, task):

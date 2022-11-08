@@ -23,6 +23,7 @@ def signup():
         password = signup_form.password.data
 
         user_doc = get_user_by_key(username)
+        print(user_doc)
 
         if not user_doc:
             password_hash = generate_password_hash(password)
