@@ -22,7 +22,11 @@ def get_user_data(username, data_to_get: list):
         },
         AttributesToGet = data_to_get
     )
-    return response
+
+    if "Item" in response:
+        return response["Item"]
+    
+    return {}
 
 def create_user(user_data):
     response = users_table.put_item(Item=user_data.__dict__)

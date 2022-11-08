@@ -15,7 +15,8 @@ class UserModel(UserMixin):
 
     @staticmethod
     def query(username):
-        user_doc = get_user_by_key(username)
+        user_item = get_user_by_key(username)
+        user_doc = user_item["Item"]
         user_data = UserData(
             username = user_doc["username"],
             password = user_doc["password"]

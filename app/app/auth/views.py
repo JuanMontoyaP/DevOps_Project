@@ -26,7 +26,8 @@ def login():
         username = login_form.username.data
         password = login_form.password.data
 
-        user_doc = get_user_by_key(username, 'username')
+        user_item = get_user_by_key(username)
+        user_doc = user_item["Item"]
     
         if user_doc:    
             password_from_db = user_doc["password"]
