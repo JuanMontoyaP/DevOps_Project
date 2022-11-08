@@ -26,9 +26,10 @@ def login():
         username = login_form.username.data
         password = login_form.password.data
 
-        user_doc = get_user_by_key(username, 'username')
+        user_item = get_user_by_key(username)
     
-        if user_doc:    
+        if "Item" in user_item:    
+            user_doc = user_item["Item"]
             password_from_db = user_doc["password"]
 
             if check_password_hash(password_from_db, password):

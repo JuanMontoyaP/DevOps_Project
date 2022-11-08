@@ -22,9 +22,9 @@ def signup():
         username = signup_form.username.data
         password = signup_form.password.data
 
-        user_doc = get_user_by_key(username)
+        user_item = get_user_by_key(username)
 
-        if not user_doc:
+        if "Item" not in user_item:
             password_hash = generate_password_hash(password)
             user_data = UserData(username, password_hash)
 
