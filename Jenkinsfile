@@ -117,8 +117,8 @@ pipeline {
                             inventory: 'aws_ec2.yml',
                             playbook: 'playbook.yml',
                             extraVars: [
-                                aws_access_key: [value: ${accessKeyVariable}, hidden: true],
-                                aws_secret_key: [value: ${secretKeyVariable}, hidden: true]
+                                aws_access_key: [value: {accessKeyVariable}, hidden: true],
+                                aws_secret_key: [value: {secretKeyVariable}, hidden: true]
                             ]
                         )
                     }
