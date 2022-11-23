@@ -110,8 +110,6 @@ pipeline {
                         secretKeyVariable: 'AWS_SECRET_KEY'
                     ]]) {
 
-                        sh "echo $accessKeyVariable"
-
                         ansiblePlaybook(
                             credentialsId: 'aws_ec2_key',
                             disableHostKeyChecking: true, 
