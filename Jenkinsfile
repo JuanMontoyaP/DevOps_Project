@@ -116,8 +116,11 @@ pipeline {
                             installation: 'ansible', 
                             inventory: 'aws_ec2.yml',
                             playbook: 'playbook.yml',
+                            extraVars {
+                                extraVar("key1", accessKeyVariable, true)
+                                extraVar("key2", secretKeyVariable, true)
+                            }
                         )
-
                     }
                 }
             }

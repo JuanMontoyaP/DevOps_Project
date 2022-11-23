@@ -56,9 +56,19 @@
       group: ec2-user
       mode: '0644'
 
-  - name: Build app docker
-    community.docker.docker_compose:
-      project_src: app
-      build: true
+  # - name: Build app docker
+  #   community.docker.docker_compose:
+  #     project_src: app
+  #     build: true
+
+  - name: Start app container
+    docker_container:
+      name: app
+      image: jpmontoya19/cisco_demo:flask-app
+      ports:
+        - "80:5000"
+      env:
+        AWS_ACCESS_KEY_ID: $key1
+        AWS_SECRET_ACCESS_KEY: $key2
 
 
