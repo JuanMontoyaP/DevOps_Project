@@ -110,7 +110,7 @@ pipeline {
                         secretKeyVariable: 'AWS_SECRET_KEY'
                     ]]) {
 
-                        sh "$accessKeyVariable"
+                        sh "echo $accessKeyVariable"
 
                         ansiblePlaybook(
                             credentialsId: 'aws_ec2_key',
@@ -119,8 +119,8 @@ pipeline {
                             inventory: 'aws_ec2.yml',
                             playbook: 'playbook.yml',
                             extraVars: [
-                                aws_access_key: [value: '${accessKeyVariable}', hidden: true],
-                                aws_secret_key: [value: '${secretKeyVariable}', hidden: true]
+                                aws_access_key: [value: '${AWS_ACCESS_KEY_ID}', hidden: true],
+                                aws_secret_key: [value: '${AWS_SECRET_ACCESS_KEY}', hidden: true]
                             ]
                         )
                     }
