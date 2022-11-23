@@ -94,6 +94,21 @@ pipeline {
             }
         }
 
+        stage("output infrastructure") {
+
+            when {
+                not {
+                    equals expected: true, actual: params.destroy
+                }
+            }
+
+            steps {
+                dir('terraform') {
+                    sh "terraform output"
+                }
+            }
+        }
+
         stage("Use ansible") {
             when {
                 not {
