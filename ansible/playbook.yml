@@ -48,14 +48,6 @@
       path: /home/ec2-user/app
       state: directory
 
-  - name: Copy docker-compose files
-    ansible.builtin.copy:
-      src: docker-compose.yml
-      dest: /home/ec2-user/app/docker-compose.yml
-      owner: ec2-user
-      group: ec2-user
-      mode: '0644'
-
   - name: Start app container
     docker_container:
       name: app
