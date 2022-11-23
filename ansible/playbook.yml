@@ -56,11 +56,6 @@
       group: ec2-user
       mode: '0644'
 
-  # - name: Build app docker
-  #   community.docker.docker_compose:
-  #     project_src: app
-  #     build: true
-
   - name: Start app container
     docker_container:
       name: app
