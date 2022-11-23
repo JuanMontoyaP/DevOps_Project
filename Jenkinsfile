@@ -8,8 +8,6 @@ pipeline {
 
     environment {
         dockerhub=credentials('dockerhub')
-        AWS_ACCESS_KEY_ID=credentials('aws_access_key_id')
-        AWS_SECRET_ACCESS_KEY=credentials('aws_secret_access_key')
     }
 
     stages {
@@ -116,8 +114,8 @@ pipeline {
                             installation: 'ansible', 
                             inventory: 'aws_ec2.yml',
                             playbook: 'playbook.yml',
+                            extras: "-e accessKeyVariable=${accessKeyVariable} -e secretKeyVariable=${secretKeyVariable}",
                         )
-
                     }
                 }
             }
