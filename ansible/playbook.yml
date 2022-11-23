@@ -63,7 +63,7 @@
       ports:
         - "80:5000"
       env:
-        AWS_ACCESS_KEY_ID: "{{accessKeyVariable}}"
-        AWS_SECRET_ACCESS_KEY: "{{secretKeyVariable}}"
+        AWS_ACCESS_KEY_ID: "{{aws_access_key}}"
+        AWS_SECRET_ACCESS_KEY: "{{aws_secret_key}}"
 
 

@@ -114,7 +114,10 @@ pipeline {
                             installation: 'ansible', 
                             inventory: 'aws_ec2.yml',
                             playbook: 'playbook.yml',
-                            extras: "-e accessKeyVariable=${accessKeyVariable} -e secretKeyVariable=${secretKeyVariable}",
+                            extraVars: [
+                                aws_access_key: [value: ${accessKeyVariable}, hidden: true],
+                                aws_secret_key: [value: ${secretKeyVariable}, hidden: true]
+                            ]
                         )
                     }
                 }
