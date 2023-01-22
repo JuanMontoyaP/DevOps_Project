@@ -13,11 +13,23 @@ This app runs in localhost port 5000 and has the following endpoints:
 - /movies: Shows the most popular movies and his review score.
 
 ## How to build this app?
-For building this app you should install docker and run the following commands on your terminal.
 
-    docker-compose build
-    docker-compose up -d
+You should have installed Terraform, Ansible and have configured your aws credentials in your laptop.
 
-For stop the app, run the following command:
+## Terraform
 
-    docker-compose down
+Before running terraform you should create a new ssh key in your aws named "us-west-key" and save it in your computer. Go to the terraform directory and run the following commands:
+
+    terraform init
+    terraform plan
+    terraform apply
+
+This will create three instances and a load balancer in your aws console.
+
+## Ansible
+
+After running terraform you must run ansible with the following command:
+
+    ansible-playbook -i aws_ec2.yml -u ec2_user --private-key <your-ssh-key> playbook.yml
+
+Your app should be available through the load balancer.
